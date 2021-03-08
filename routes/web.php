@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::any('/any', function() {
+    return "Any - Aceita todo tipo de requisição (GET, POST, etc)";
+});
+
+Route::post('/register', function() {
+    return view('register');
+});
+
+Route::get('/contato', function() {
+    return view('contact');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
