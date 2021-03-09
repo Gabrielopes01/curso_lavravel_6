@@ -3,4 +3,4 @@
 <?php
 
 echo "<p>Bem Vindo ".$_POST['nome']."</p>";
-echo "<button><a href='/' style='text-decoration:none'>HOME</a></button>"
+echo "<button><a href='/' style='text-decoration:none'>HOME</a></button>";

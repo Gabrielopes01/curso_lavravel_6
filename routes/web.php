@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
+//use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,30 @@ use App\Http\Controllers;
 
 /* Gupos de Rotas*/
 
+//-------------------------------Aulas de Controller
 
+Route::resource('products', 'App\Http\Controllers\ProductControllerAuto'); //->middleware('auth');  //Este filtro diz que voce precisa estar autentificado ou você ira apagina de login, pode passar um valor especifico ou um array
+
+//Route::resource('products', 'App\Http\Controllers\ProductController');
+/*
+Route::group([
+    'prefix' => 'products',
+    'namespace' => 'App\Http\Controllers'
+], function() {
+
+    Route::get('/', 'ProductController@index')->name('products.index');
+    Route::get('/create', 'ProductController@create')->name('products.create');
+    Route::post('/create', 'ProductController@store')->name('products.store');
+    Route::get('/{id}/delete', 'ProductController@confirmDel')->name('products.confirmDel');
+    Route::delete('/{id}/delete', 'ProductController@destroy')->name('products.destroy');
+    Route::put('/{id}/edit', 'ProductController@update')->name('products.update');
+    Route::get('/{id}/edit', 'ProductController@edit')->name('products.edit');
+    Route::get('/{id}', 'ProductController@show')->name('products.show');
+
+});
+*/
+
+//-----------------------------Aulas de Route
 Route::get('/login', function() {
     return "Login";
 })->name('login');
@@ -46,6 +69,7 @@ Route::middleware([])->group(function() {
     });
 });
 */
+/*
 //Maneira alternativa - Todos os parametros em um group
 Route::group([
     'middleware' => [],
@@ -69,8 +93,7 @@ Route::group([
     });
 
 });
-
-
+*/
 
 //Nomes das rotas
 Route::get('/redirect3', function() {
