@@ -17,7 +17,7 @@ class ProductControllerAuto extends Controller
         //dd($request);
         $this->request = $request;
 
-        $this->middleware('auth')->except('show'); //Colocaoca o filtro em todos exceto em 1
+        //$this->middleware('auth')->except('show'); //Colocaoca o filtro em todos exceto em 1
         //$this->middleware('auth')->only(['create', 'store', 'show']);  //Este tipo de miidleware/filtro diz que havera autenticação apenas na pagina do create
     }
 
@@ -28,7 +28,11 @@ class ProductControllerAuto extends Controller
      */
     public function index()
     {
-        return ProductControllerAuto::PRODUCTS;
+        $produtosJSON = json_encode(ProductControllerAuto::PRODUCTS);
+        $produtos = ProductControllerAuto::PRODUCTS;
+        $estoque = 150;
+        //return ProductControllerAuto::PRODUCTS;
+        return view('admin.pages.products.index', compact('produtos', 'estoque', 'produtosJSON'));
     }
 
     /**
@@ -38,7 +42,7 @@ class ProductControllerAuto extends Controller
      */
     public function create()
     {
-        return  "Form de criação de produto";
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -49,7 +53,7 @@ class ProductControllerAuto extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd("Cadastrando....");
     }
 
     /**
@@ -60,7 +64,7 @@ class ProductControllerAuto extends Controller
      */
     public function show($id)
     {
-        return ProductControllerAuto::PRODUCTS[$id-1];
+        return view('admin.pages.products.show', compact('id'));
     }
 
     /**
@@ -71,7 +75,7 @@ class ProductControllerAuto extends Controller
      */
     public function edit($id)
     {
-        return "Form de edição do Produto de ID: ".$id;
+        return view('admin.pages.products.edit', compact('id'));
     }
 
     /**
@@ -83,7 +87,7 @@ class ProductControllerAuto extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd("Editando o Produto {$id}");
     }
 
     /**
@@ -94,6 +98,6 @@ class ProductControllerAuto extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd("Deletando  Produto {$id}....");
     }
 }

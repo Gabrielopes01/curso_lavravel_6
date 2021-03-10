@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+//------------------------------------Aulas de Views
+Route::get('/view', 'App\Http\Controllers\Admin\TesteController@goToView')->name('view');   //Enviando variavel
+
+Route::get('/viewProducts', 'App\Http\Controllers\ProductControllerAuto@index')->name('viewProduct');
+
 /* Gupos de Rotas*/
 
 //-------------------------------Aulas de Controller
@@ -29,10 +35,9 @@ Route::group([
 
     Route::get('/', 'ProductController@index')->name('products.index');
     Route::get('/create', 'ProductController@create')->name('products.create');
-    Route::post('/create', 'ProductController@store')->name('products.store');
-    Route::get('/{id}/delete', 'ProductController@confirmDel')->name('products.confirmDel');
-    Route::delete('/{id}/delete', 'ProductController@destroy')->name('products.destroy');
-    Route::put('/{id}/edit', 'ProductController@update')->name('products.update');
+    Route::post('/', 'ProductController@store')->name('products.store');
+    Route::delete('/{id}', 'ProductController@destroy')->name('products.destroy');
+    Route::put('/{id}', 'ProductController@update')->name('products.update');
     Route::get('/{id}/edit', 'ProductController@edit')->name('products.edit');
     Route::get('/{id}', 'ProductController@show')->name('products.show');
 
