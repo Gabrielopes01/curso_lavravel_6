@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductControllerAuto extends Controller
@@ -51,9 +52,32 @@ class ProductControllerAuto extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateProductRequest $request)  //Trocou a classe padrão Request pela a classe criada em Requests do Http
     {
-        dd("Cadastrando....");
+        /*
+        $request->validate([  //Este cpomando faz validações dos campos, na onde eles retornam a pagina caso não passem
+            'name' => 'required|min:3|max:250',  //É obrigatório com min e max de caracteres
+            'description' => 'nullable|min:3|max:10000',   //É opcional 
+            'photo' => 'required|image'  //Valida para saber se o arquivo é uma imagem
+        ]);
+        */
+        dd('OK');
+
+        //Pegando Valores do Formulario
+        //dd($request->input('name2', 'Valor de Campo Default'), $request->only(['name', 'description']),$request->has('name'), $request->name, $request->all(), $request->except(['description', '_token']));
+        //input pega um valor default caso tal campo nao esteja definido
+        
+        //Pegando informação do Upload de arquivo
+        //dd($request->file('photo'));   //Informações do arquivo, pode usar apenas $request->photo
+        //dd($request->file('photo')->extension());  //Verifica a extensão do arquivo
+        //dd($request->file('photo')->getClientOriginalName());  //Pega o nome original do arquivo
+
+        if(($request->file('photo')->isValid())) { //Verifica se o arquivo é valido
+            //dd($request->file('photo')->store('products'));   //Salva na pasta app por padrao e gera uma pasta products
+            $nameFile = $request->name . '.' . $request->photo->extension();
+            dd($request->photo->storeAs('products', $nameFile));  //Salva com um nome customizavel - Pode salvar em Public ou em Local
+        }  
+        
     }
 
     /**
