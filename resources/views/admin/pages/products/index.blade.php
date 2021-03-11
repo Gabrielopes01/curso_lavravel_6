@@ -32,15 +32,37 @@
         @if (empty($produtos))
             Sem Produtos <!--Usado em Array-->
         @else
-            <ul>
-             @foreach ($produtos as $produto)
-               <li class='@if ($loop->last) last @endif'> {{$produto}} </li>  <!-- Se for o ultimo elemento muda a cor do bg-->
-             @endforeach
-            </ul>   
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($produtos as $produto)
+                    <tr>
+                        <!-- Se for o ultimo elemento muda a cor do bg-->
+                        <td class='@if ($loop->last) last @endif'> {{$produto->id}} </td>
+                        <td class='@if ($loop->last) last @endif'> {{$produto->name}} </td>
+                        <td class='@if ($loop->last) last @endif'> {{$produto->description}} </td>
+                        <td class='@if ($loop->last) last @endif'> {{$produto->price}} </td>
+                        <td class='@if ($loop->last) last @endif'>
+                            <a href="{{ route('products.show', $produto->id) }}">Detalhes</a>
+                        </td>
+                    </tr>  
+                    @endforeach
+                </tbody>
+            </table>
+ 
         @endif
         {{ $produtosJSON }}
     @endisset
 
+    {!! $produtos->links() !!}  <!--Cria os links da paginação-->
     <!-- Metodo Alternativo ao de cima
     @forelse ($produtos as $produto)
         <li> {{$produto}} </li>  

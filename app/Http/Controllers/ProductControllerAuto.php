@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductControllerAuto extends Controller
@@ -30,7 +31,8 @@ class ProductControllerAuto extends Controller
     public function index()
     {
         $produtosJSON = json_encode(ProductControllerAuto::PRODUCTS);
-        $produtos = ProductControllerAuto::PRODUCTS;
+        //$produtos = Product::all();  //Exibe todoso os valores no BD
+        $produtos = Product::paginate(20);   //Exibe os 20 primeiros registros (default 15)  latest()->paginate() - Retorna os ultimos
         $estoque = 150;
         //return ProductControllerAuto::PRODUCTS;
         return view('admin.pages.products.index', compact('produtos', 'estoque', 'produtosJSON'));
