@@ -6,7 +6,7 @@
 
 @section('content')
     <h1>Exibindo Produtos</h1>
-    <a href="{{ route('products.create') }}">Cadastrar</a>
+    <a class="btn btn-primary" href="{{ route('products.create') }}">Cadastrar</a>
 
     @component('admin.components.cards')
         @slot('title')
@@ -18,7 +18,7 @@
 
     <hr>
 
-    @include('admin.includes.alerts', ['content' => 'Teste de Erro'])
+    @include('admin.includes.alerts')
 
     @auth
         <p>Bem Vindo Usuário</p>
@@ -28,30 +28,51 @@
   
     <h1>Exibindo os Produtos</h1>
 
+    <form action="{{ route('products.search') }}" method="post" class="form form-inline">
+        @csrf
+        <input type="text" name="filter" placeholder="Filtrar:" class="form-control" value="{{ isset($filters)?isset($filters['filter'])?$filters['filter']:'':'' }}" style="float: left; width: 15%">
+        <button type="submit" class="btn btn-info">Pesquisar</button>      
+    </form>
+
     @isset($produtos)
         @if (empty($produtos))
             Sem Produtos <!--Usado em Array-->
         @else
-            <table border="1">
+            <table class="table table-striped" border="1">
                 <thead>
                     <tr>
+                        <th width="100">Imagem</th>
                         <th>Id</th>
                         <th>Nome</th>
                         <th>Descrição</th>
                         <th>Preço</th>
-                        <th>Ações</th>
+                        <th width="100">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($produtos as $produto)
                     <tr>
                         <!-- Se for o ultimo elemento muda a cor do bg-->
+                        @if ($produto->image)
+                            <td class='@if ($loop->last) last @endif'>
+                                <a href="{{ url("storage/{$produto->image}")}}" alt="{{ $produto->name }}">
+                                <img src="{{ url("storage/{$produto->image}")}}" alt="{{ $produto->name }}" style="max-width: 100px"> 
+                                </a> 
+                            </td>
+                        @else
+                            <td class='@if ($loop->last) last @endif'>
+                                <a href="{{ url("storage/products/default.jpg")}}" alt="{{ $produto->name }}">
+                                <img src="{{ url("storage/products/default.jpg")}}" alt="{{ $produto->name }}" style="max-width: 100px"> 
+                                </a> 
+                            </td>
+                        @endif
                         <td class='@if ($loop->last) last @endif'> {{$produto->id}} </td>
                         <td class='@if ($loop->last) last @endif'> {{$produto->name}} </td>
                         <td class='@if ($loop->last) last @endif'> {{$produto->description}} </td>
                         <td class='@if ($loop->last) last @endif'> {{$produto->price}} </td>
                         <td class='@if ($loop->last) last @endif'>
                             <a href="{{ route('products.show', $produto->id) }}">Detalhes</a>
+                            <a href="{{ route('products.edit', $produto->id) }}">Editar</a>
                         </td>
                     </tr>  
                     @endforeach
@@ -62,7 +83,12 @@
         {{ $produtosJSON }}
     @endisset
 
-    {!! $produtos->links() !!}  <!--Cria os links da paginação-->
+    @if (isset($filters)?$filters:null)
+        {!! $produtos->appends($filters)->links() !!}
+    @else
+        {!! $produtos->links() !!}  <!--Cria os links da paginação-->
+    @endif
+    
     <!-- Metodo Alternativo ao de cima
     @forelse ($produtos as $produto)
         <li> {{$produto}} </li>  

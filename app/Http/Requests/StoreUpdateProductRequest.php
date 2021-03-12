@@ -23,10 +23,14 @@ class StoreUpdateProductRequest extends FormRequest
      */
     public function rules()
     {
+
+        $id = $this->segment(2);   //Pega o ID da URL
+
         return [
-            'name' => 'required|min:3|max:250',  
-            'description' => 'nullable|min:3|max:10000',  
-            'photo' => 'required|image'
+            'name' => "required|min:3|max:250|unique:products,name,{$id},id",   //unique:tabela_excessao,coluna_do_where,valor_externo,valor_interno_comparacao
+            'description' => 'required|min:3|max:10000',
+            'price' => 'required|numeric',  
+            'photo' => 'nullable|image'
         ];
     }
 
@@ -36,8 +40,11 @@ class StoreUpdateProductRequest extends FormRequest
             'name.required' => 'Nome é obrigatório',
             'name.min' => 'Nome precisa de no mínimo 3 caracteres',
             'name.max' => 'Limite de 250 caracteres excedido em Nome',
-            'photo.required' => 'Você precisa selecionar uma imagem',
-            'photo.image' => 'O arquivo deve ser uma imagem'
+            'name.unique' => 'Este nome ja foi selecionado, favor escolher outro',
+            'description.required' => 'Você precisa adicionar uma descrição ao produto',
+            'photo.image' => 'O arquivo deve ser uma imagem',
+            'price.numeric'=>'O Valor de Preço precisa ser um número',
+            'price.required'=> 'É necessário preencher o campo preço'
         ];
     }
 }
