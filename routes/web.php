@@ -26,7 +26,7 @@ Route::get('/viewProducts', 'App\Http\Controllers\ProductControllerAuto@index')-
 //-------------------------------Aulas de Controller
 
 Route::any('products/search', 'App\Http\Controllers\ProductControllerAuto@search')->name('products.search');
-Route::resource('products', 'App\Http\Controllers\ProductControllerAuto')->middleware('auth');  //Este filtro diz que voce precisa estar autentificado ou você ira apagina de login, pode passar um valor especifico ou um array
+Route::resource('products', 'App\Http\Controllers\ProductControllerAuto')->middleware(['auth', 'check.is.admin']);  //Este filtro diz que voce precisa estar autentificado ou você ira apagina de login, pode passar um valor especifico ou um array
 
 //Route::resource('products', 'App\Http\Controllers\ProductController');
 /*
